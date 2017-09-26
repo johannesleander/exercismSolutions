@@ -34,8 +34,5 @@ function convert(n) {
     result += 'I' + convert(n - 1);
   };
 
-  console.log(n/1000);
-
-  // return result.split("").reverse().join("");
   return result;
 }
