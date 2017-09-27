@@ -16,14 +16,15 @@ class Allergies {
 
   list() {
     let result = [];
-    let tempScore = this.score;
-    while (tempScore > allergens['cats'] * 2) {
-      tempScore -= allergens['cats'];
+    //Ignore non allergen score parts
+    while (this.score > allergens['cats'] * 2) {
+      this.score -= allergens['cats'];
     }
+
     for (let key of Object.keys(allergens).reverse()) {
-      if (tempScore >= allergens[key] && allergens[key] < tempScore * 2) {
+      if (this.score >= allergens[key] && allergens[key] < this.score * 2) {
         result.unshift(key);
-        tempScore -= allergens[key];
+        this.score -= allergens[key];
       }
     }
     return result;
