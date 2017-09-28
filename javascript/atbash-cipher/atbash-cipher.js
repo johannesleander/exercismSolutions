@@ -3,7 +3,7 @@ let REGEX = /[\s,.]/g
 
 
 module.exports.encode = (str) => {
-  str = str.replace(REGEX, "").toLowerCase();
+  str = str.replace(REGEX, "").toLowerCase(); 
   let result = '';
   let groupIndex = 0;
   for (let i = 0; i < str.length; i++) {
