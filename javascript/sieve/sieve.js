@@ -4,32 +4,37 @@ class Sieve {
   }
 
   calcPrimes(current, limit) {
-    let range = createRange(current, limit);
-    let marked = [];
-    for (let i = 0; i < range.length; i++) {
-      if (marked.indexOf(range[i]) >= 0) continue;
+    let list = range(current, limit);
+    let marked = mark(list);
 
-      let current = range[i] * 2;
-      while (current <= limit) {
-        marked.push(current);
-        current += range[i];
-      }
-    }
+    let result = list.filter((n) => {
+      return !marked.includes(n);
+    });
 
-    let result = [];
-    for (let i = 0; i < range.length; i++) {
-      if (!marked.includes(range[i])) result.push(range[i]);
-    }
     return result;
   }
 }
 
-function createRange(start, end) {
-  var range = [];
-  for (var i = start; i <= end; i++) {
-      range.push(i);
+function mark(list) {
+  let marked = [];
+  for (let i = 0; i < list.length; i++) {
+    if (marked.indexOf(list[i]) >= 0) continue;
+
+    let current = list[i] * 2;
+    while (current <= list[list.length-1]) {
+      marked.push(current);
+      current += list[i];
+    }
   }
-  return range;
+  return marked
+}
+
+function range(start, end) {
+  var array = [];
+  for (var i = start; i <= end; i++) {
+      array.push(i);
+  }
+  return array;
 }
 
 module.exports = Sieve;
