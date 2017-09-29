@@ -1,13 +1,10 @@
-var REGEX_LUHN = /\d{4}\sd{4}\sd{4}\sd{4}/;
-
 class Luhn {
   constructor(input) {
-    this.input = input
-    this.valid = this.isValid();
+    this.valid = this.isValid(input);
   }
 
-  isValid() {
-    let data = this.input.split(' ').join('');
+  isValid(input) {
+    let data = input.split(' ').join('');
     if (data.length <= 1) return false;
 
     let sum = 0;
@@ -17,7 +14,6 @@ class Luhn {
         sum += add;
       }
     return sum % 10 == 0;
-
   }
 }
 
