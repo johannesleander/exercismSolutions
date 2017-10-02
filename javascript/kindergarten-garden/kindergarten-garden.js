@@ -59,3 +59,17 @@ class Garden {
 }
 
 module.exports = Garden;
+//
+// const children = ['alice', 'bob', 'charlie', 'david', 'eve', 'fred', 'ginny'
+//     , 'harriet', 'ileana', 'joseph', 'kincaid', 'larry'];
+// const plants = {'V' : 'violets', 'R': 'radishes', 'C': 'clover', 'G': 'grass'};
+//
+// let Garden = function (pots, students = children) {
+//     this.layout = pots.split('\n').map(x => x.split(''));
+//     students.sort().map(x => x.toLowerCase()).forEach((v, child) => {
+//         this[v] = this.layout.map(x => x.slice(child*2,child*2 + 2).map(y => plants[y]))
+//                                     .reduce((a,b) => a.concat(b));
+//     });
+// }
+
+module.exports = Garden;
