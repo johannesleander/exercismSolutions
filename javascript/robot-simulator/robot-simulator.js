@@ -63,19 +63,18 @@ class Robot {
   }
 
   advance() {
+    let x = this.coordinates[0];
+    let y = this.coordinates[1];
+
     switch (this.bearing) {
       case 'north':
-        this.at(this.coordinates[0], this.coordinates[1] + 1);
-        break;
+        this.at(x    , y + 1); break;
       case 'east':
-        this.at(this.coordinates[0] + 1, this.coordinates[1]);
-        break;
+        this.at(x + 1, y    ); break;
       case 'south':
-        this.at(this.coordinates[0], this.coordinates[1] - 1);
-        break;
+        this.at(x    , y - 1); break;
       case 'west':
-        this.at(this.coordinates[0] - 1, this.coordinates[1]);
-        break;
+        this.at(x - 1, y    ); break;
       default:
         throw new Error('Robot has illegal bearing');
     }
