@@ -39,65 +39,59 @@ let triplets= [
   " thousand",
   " million",
   " billion",
-  " trillion",
-  " quadrillion",
-  " quintillion",
-  " sextillion",
-  " septillion",
-  " octillion",
-  " nonillion"
 ];
 
 function inEnglish(num) {
   if (isNaN(num)) return;
 
-  if (10**12 <= num) throw new Error('Number must be between 0 and 999,999,999,999.');
-  if (num < 0)
-   throw new Error('Number must be between 0 and 999,999,999,999.');
+  if (10**12 <= num) {
+    throw new Error('Number must be between 0 and 999,999,999,999.');
+  }
+  if (num < 0) {
+    throw new Error('Number must be between 0 and 999,999,999,999.');
+  }
 
-  if (num == 0)
-   return "zero";
+  if (num == 0) return "zero";
 
-  return convertTri(num, 0);
+  return triToEnglish(num, 0);
 }
 
-function convertTri(num, tri) {
-  // chunk the number, ...rxy
-  let r = (num / 1000);
-  let x = (num / 100) % 10;
-  let y = num % 100;
+function triToEnglish(num, tri) {
+  // chunk the number, ...xyz
+  let x = num / 1000;
+  let y = (num / 100) % 10;
+  let z = num % 100;
 
   let str = '';
 
   //hundreds
-  if (x >= 1) {
-    str += ones[Math.floor(x)] + ' hundred';
+  if (y >= 1) {
+    str += ones[Math.floor(y)] + ' hundred';
   }
 
   //ones and teens
-  if (y >= 20) {
-    str += tens[Math.floor(y / 10)];
+  if (z >= 20) {
+    str += tens[Math.floor(z / 10)];
 
-    if (ones[Math.floor(y % 10)]) {
-      str += '-' + ones[Math.floor(y % 10)].substr(1,ones[Math.floor(y % 10)].length);
+    //'-' Only between *teen* and *one*
+    if (ones[Math.floor(z % 10)]) {
+      str += '-' + ones[Math.floor(z % 10)].substr(1,ones[Math.floor(z % 10)].length);
     }
+
   } else {
-    console.log(Math.floor(y));
-    str += ones[Math.floor(y)];
+    str += ones[Math.floor(z)];
   }
 
+  //Add triplet only if nothing else is added
   if (str) str += triplets[tri];
 
-  // console.log(str);
   // continue recursing?
-  if (r >= 1) {
+  if (x >= 1) {
     str = (str[0] === '-') ? ' ' + str.substr(1,str.length) : str;
-    return convertTri(r, tri+1) + str;
+    return triToEnglish(x, tri+1) + str;
   } else {
     return str.substr(1,str.length);
   }
 }
-
-
 
 module.exports = {inEnglish: inEnglish};
