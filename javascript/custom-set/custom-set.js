@@ -3,6 +3,18 @@ class Set {
     this.content = content || [];
   }
 
+  //Update function
+  add(x) {
+    if (!this.contains(x)) this.content.push(x);
+    return this;
+  }
+
+  clear() {
+    this.content = [];
+    return this;
+  }
+
+  //Read functions
   size() {
     return this.union(this).content.length;
   }
@@ -20,88 +32,60 @@ class Set {
   }
 
   subset(other) {
-    if (other.content.length > this.content.length) return false;
-    if (other.content.length === 0) return true;
-
-    let steps = other.content.length;
-
-    for (let i = 0; steps + i <= this.content.length; i++) {
-      let matches = 0;
-      for (let j = 0; j < steps; j++) {
-        if (this.content[i+j] === other.content[j]) matches++;
-      }
-      if (matches === other.content.length) return true;
+    for (let i = 0; (other.content.length + i) <= this.content.length; i++) {
+      let isSubset = (
+        this.content.slice(i,other.content.length + i).every((x,i) => {
+          return x === other.content[i]
+        }));
+      if (isSubset) return true;
     }
     return false;
   }
 
   disjoint(other) {
-    for (let thisValue of this.content) {
-      for (let otherValue of other.content) {
-        if (otherValue === thisValue) return false;
-      }
-    }
-    return true;
+    return !this.content.some(x => {
+      return other.contains(x);
+    });
   }
 
   eql(other) {
     if (other.content.length !== this.content.length) return false;
-    let matches = 0;
-    for (let value of other.content) {
-      if (this.content.indexOf(value) >= 0) matches++;
-    }
-    return matches === other.content.length;
+
+    return other.content.every(x => {
+      return this.contains(x);
+    });
   }
 
   intersection(other) {
-    if (other.content.length === 0 || this.content.length === 0) {
-      return new Set();
-    }
     let result = other.content.filter(x => {
-      return this.content.indexOf(x) >= 0;
+      return this.contains(x);
     });
     return new Set(result);
   }
 
   difference(other) {
-    if (other.content.length === 0 && this.content.length === 0) {
-      return new Set();
-    } else if (other.content.length === 0) {
-      return this;
-    } else {
-      let result = this.content.filter(x => {
-        return other.content.indexOf(x) < 0;
-      });
-      return new Set(result);
-    }
+    let result = this.content.filter(x => {
+      return !other.contains(x);
+    });
+    return new Set(result);
   }
 
   union(other) {
-    var obj = {};
-    for (var i = other.content.length-1; i >= 0; -- i) {
+    let obj = {};
+    for (let i = other.content.length-1; i >= 0; -- i) {
       obj[other.content[i]] = other.content[i];
     }
-    for (var i = this.content.length-1; i >= 0; -- i) {
+    for (let i = this.content.length-1; i >= 0; -- i) {
       obj[this.content[i]] = this.content[i];
     }
 
-    var res = []
-    for (var k in obj) {
+    let res = [];
+    for (let k in obj) {
       if (obj.hasOwnProperty(k)) {
         res.push(obj[k]);
       }
     }
     return new Set(res);
-  }
-
-  add(n) {
-    if (this.content.indexOf(n) < 0) this.content.push(n);
-    return this;
-  }
-
-  clear() {
-    this.content = [];
-    return this;
   }
 }
 
